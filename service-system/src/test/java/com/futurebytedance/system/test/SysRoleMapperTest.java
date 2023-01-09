@@ -19,9 +19,22 @@ public class SysRoleMapperTest {
     @Autowired
     private SysRoleMapper sysRoleMapper;
 
+    //3.修改操作
+    @Test
+    public void update() {
+        //根据id查询
+        SysRole sysRole = sysRoleMapper.selectById(1612484561466298370L);
+
+        //设置修改值
+        sysRole.setDescription("系统管理员");
+
+        //调用方法实现修改
+        sysRoleMapper.updateById(sysRole);
+    }
+
     //2.添加操作
     @Test
-    public void findAll() {
+    public void add() {
         SysRole sysRole = new SysRole();
         sysRole.setRoleName("测试角色");
         sysRole.setRoleCode("testManager");
@@ -32,7 +45,7 @@ public class SysRoleMapperTest {
 
     //1.查询表所有记录
     @Test
-    public void testAdd() {
+    public void getAll() {
         List<SysRole> sysRoles = sysRoleMapper.selectList(null);
         for (SysRole sysRole : sysRoles) {
             System.out.println(sysRole);
