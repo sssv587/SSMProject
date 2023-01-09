@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,6 +19,20 @@ import java.util.List;
 public class SysRoleMapperTest {
     @Autowired
     private SysRoleMapper sysRoleMapper;
+
+    //5.批量删除
+    @Test
+    public void testBatchDelete() {
+        int rows = sysRoleMapper.deleteBatchIds(Arrays.asList(1612484561466298370L, 1612484561466298371L));
+        System.out.println(rows);
+    }
+
+    //4.id删除
+    @Test
+    public void deleteId() {
+        int rows = sysRoleMapper.deleteById(1612484561466298370L);
+        System.out.println(rows);
+    }
 
     //3.修改操作
     @Test
