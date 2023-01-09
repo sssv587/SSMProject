@@ -19,6 +19,17 @@ public class SysRoleMapperTest {
     @Autowired
     private SysRoleMapper sysRoleMapper;
 
+    //2.添加操作
+    @Test
+    public void findAll() {
+        SysRole sysRole = new SysRole();
+        sysRole.setRoleName("测试角色");
+        sysRole.setRoleCode("testManager");
+        sysRole.setDescription("测试角色");
+        int rows = sysRoleMapper.insert(sysRole);
+        System.out.println(rows);
+    }
+
     //1.查询表所有记录
     @Test
     public void testAdd() {
