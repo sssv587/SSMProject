@@ -7,3 +7,6 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 /.idea/*
+/model/target/*
+/service-system/target/*
+/.gitignore
