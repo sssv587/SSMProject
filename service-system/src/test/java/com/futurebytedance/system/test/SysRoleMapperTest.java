@@ -3,6 +3,7 @@ package com.futurebytedance.system.test;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.futurebytedance.model.system.SysRole;
 import com.futurebytedance.system.mapper.SysRoleMapper;
+import com.futurebytedance.system.service.SysRoleService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +21,55 @@ import java.util.List;
 public class SysRoleMapperTest {
     @Autowired
     private SysRoleMapper sysRoleMapper;
+
+    @Autowired
+    private SysRoleService sysRoleService;
+
+    //查询
+    @Test
+    public void findAll() {
+        //service方法实现
+        List<SysRole> list = sysRoleService.list();
+        System.out.println(list);
+    }
+
+    //添加
+    @Test
+    public void addA() {
+        SysRole sysRole = new SysRole();
+        sysRole.setRoleName("测试角色");
+        sysRole.setRoleCode("testManager");
+        sysRole.setDescription("测试角色");
+        sysRoleService.save(sysRole);
+    }
+
+    //修改
+    @Test
+    public void updateA() {
+        //根据id查询
+        SysRole sysRole = sysRoleMapper.selectById(1612484561466298370L);
+
+        //设置修改值
+        sysRole.setDescription("系统管理员");
+
+        //调用方法实现修改
+        sysRoleService.updateById(sysRole);
+    }
+
+    //删除
+    @Test
+    public void remove() {
+        sysRoleService.removeById(1612484561466298370L);
+    }
+
+    //条件查询
+    @Test
+    public void select() {
+        QueryWrapper<SysRole> wrapper = new QueryWrapper<>();
+        wrapper.eq("role_code","SYSTEM");
+        List<SysRole> list = sysRoleService.list(wrapper);
+        System.out.println(list);
+    }
 
     //7.条件删除
     @Test
