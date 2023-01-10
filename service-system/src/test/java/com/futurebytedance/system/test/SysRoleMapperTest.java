@@ -1,5 +1,6 @@
 package com.futurebytedance.system.test;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.futurebytedance.model.system.SysRole;
 import com.futurebytedance.system.mapper.SysRoleMapper;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,27 @@ import java.util.List;
 public class SysRoleMapperTest {
     @Autowired
     private SysRoleMapper sysRoleMapper;
+
+    //7.条件删除
+    @Test
+    public void testDelete() {
+        QueryWrapper<SysRole> wrapper = new QueryWrapper<>();
+        wrapper.eq("role_name", "用户管理员");
+        sysRoleMapper.delete(wrapper);
+    }
+
+    //6.条件查询
+    @Test
+    public void testSelect() {
+        //创建条件构造器对象
+        QueryWrapper<SysRole> wrapper = new QueryWrapper<>();
+        //设置条件
+        //wrapper.eq("role_name", "用户管理员");
+        wrapper.like("role_name", "管理员");
+        //调用方法查询
+        List<SysRole> list = sysRoleMapper.selectList(wrapper);
+        System.out.println(list);
+    }
 
     //5.批量删除
     @Test
