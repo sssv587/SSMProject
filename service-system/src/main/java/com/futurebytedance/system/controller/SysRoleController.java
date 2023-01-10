@@ -1,5 +1,6 @@
 package com.futurebytedance.system.controller;
 
+import com.futurebytedance.common.result.Result;
 import com.futurebytedance.model.system.SysRole;
 import com.futurebytedance.system.service.SysRoleService;
 import io.swagger.annotations.Api;
@@ -26,16 +27,16 @@ public class SysRoleController {
     //1.查询所有记录
     @ApiOperation("查询所有记录")
     @GetMapping("findAll")
-    public List<SysRole> findAddRole() {
+    public Result<List<SysRole>> findAddRole() {
         //调用service
-        return sysRoleService.list();
+        return Result.ok(sysRoleService.list());
     }
 
     //2.逻辑删除接口
     @ApiOperation("逻辑删除接口")
     @DeleteMapping("remove/{id}")
-    public boolean removeRole(@PathVariable Long id) {
+    public Result<Object> removeRole(@PathVariable Long id) {
         //调用方法删除
-        return sysRoleService.removeById(id);
+        return sysRoleService.removeById(id) ? Result.ok() : Result.fail();
     }
 }

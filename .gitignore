@@ -10,3 +10,5 @@
 /model/target/*
 /service-system/target/*
 /.gitignore
+/common/service-util/target/*
+/common/common-util/target/*
