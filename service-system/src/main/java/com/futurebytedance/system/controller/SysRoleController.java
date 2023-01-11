@@ -81,4 +81,13 @@ public class SysRoleController {
     public Result<SysRole> updateRole(@RequestBody SysRole sysRole) {
         return sysRoleService.updateById(sysRole) ? Result.ok() : Result.fail();
     }
+
+    //7.批量删除
+    //多个id值 [1,2,3]
+    //json数组格式 --- java的list集合
+    @ApiOperation("批量删除")
+    @DeleteMapping("batchRemove")
+    public Result<Object> batchRemove(@RequestBody List<Long> ids) {
+        return sysRoleService.removeByIds(ids) ? Result.ok() : Result.fail();
+    }
 }
