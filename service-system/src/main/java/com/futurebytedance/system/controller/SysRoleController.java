@@ -48,13 +48,22 @@ public class SysRoleController {
     @ApiOperation("条件分页查询")
     @GetMapping("{page}/{limit}")
     public Result<IPage<SysRole>> findPageQueryRole(@PathVariable Long page,
-                                    @PathVariable Long limit,
-                                    SysRoleQueryVo sysRoleQueryVo) {
+                                                    @PathVariable Long limit,
+                                                    SysRoleQueryVo sysRoleQueryVo) {
         //创建page对象
         Page<SysRole> pageParam = new Page<>(page, limit);
         //调用service方法
         IPage<SysRole> pageModel = sysRoleService.selectPage(pageParam, sysRoleQueryVo);
         //返回
         return Result.ok(pageModel);
+    }
+
+    //4.添加
+    //@RequestBody 不能使用get提交方式
+    //传递json格式数据,把json格式数据封装到对象里面{...}
+    @ApiOperation("添加角色")
+    @PostMapping("save")
+    public Result<Object> saveRole(@RequestBody SysRole sysRole) {
+        return sysRoleService.save(sysRole) ? Result.ok() : Result.fail();
     }
 }
