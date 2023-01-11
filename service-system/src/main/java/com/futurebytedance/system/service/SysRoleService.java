@@ -1,7 +1,10 @@
 package com.futurebytedance.system.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.futurebytedance.model.system.SysRole;
+import com.futurebytedance.model.vo.SysRoleQueryVo;
 
 /**
  * @author yuhang.sun
@@ -10,4 +13,6 @@ import com.futurebytedance.model.system.SysRole;
  * @Description
  */
 public interface SysRoleService extends IService<SysRole> {
+    //条件分页查询
+    IPage<SysRole> selectPage(Page<SysRole> pageParam, SysRoleQueryVo sysRoleQueryVo);
 }

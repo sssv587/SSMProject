@@ -1,7 +1,10 @@
 package com.futurebytedance.system.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.futurebytedance.common.result.Result;
 import com.futurebytedance.model.system.SysRole;
+import com.futurebytedance.model.vo.SysRoleQueryVo;
 import com.futurebytedance.system.service.SysRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,5 +41,20 @@ public class SysRoleController {
     public Result<Object> removeRole(@PathVariable Long id) {
         //调用方法删除
         return sysRoleService.removeById(id) ? Result.ok() : Result.fail();
+    }
+
+    //3.条件分页查询
+    //page:当前页 limit每页记录数
+    @ApiOperation("条件分页查询")
+    @GetMapping("{page}/{limit}")
+    public Result<IPage<SysRole>> findPageQueryRole(@PathVariable Long page,
+                                    @PathVariable Long limit,
+                                    SysRoleQueryVo sysRoleQueryVo) {
+        //创建page对象
+        Page<SysRole> pageParam = new Page<>(page, limit);
+        //调用service方法
+        IPage<SysRole> pageModel = sysRoleService.selectPage(pageParam, sysRoleQueryVo);
+        //返回
+        return Result.ok(pageModel);
     }
 }
