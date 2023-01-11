@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.futurebytedance.common.result.Result;
 import com.futurebytedance.model.system.SysRole;
 import com.futurebytedance.model.vo.SysRoleQueryVo;
+import com.futurebytedance.system.exception.ByteDanceException;
 import com.futurebytedance.system.service.SysRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +32,13 @@ public class SysRoleController {
     @ApiOperation("查询所有记录")
     @GetMapping("findAll")
     public Result<List<SysRole>> findAddRole() {
+        //模拟异常效果
+        try {
+            int i = 9 / 0;
+        } catch (Exception e) {
+            //手动抛出异常
+            throw new ByteDanceException(20001, "执行自定义异常处理");
+        }
         //调用service
         return Result.ok(sysRoleService.list());
     }
