@@ -33,12 +33,12 @@ public class SysRoleController {
     @GetMapping("findAll")
     public Result<List<SysRole>> findAddRole() {
         //模拟异常效果
-        try {
-            int i = 9 / 0;
-        } catch (Exception e) {
-            //手动抛出异常
-            throw new ByteDanceException(20001, "执行自定义异常处理");
-        }
+//        try {
+//            int i = 9 / 0;
+//        } catch (Exception e) {
+//            //手动抛出异常
+//            throw new ByteDanceException(20001, "执行自定义异常处理");
+//        }
         //调用service
         return Result.ok(sysRoleService.list());
     }
