@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.futurebytedance.model.system.SysRole;
 import com.futurebytedance.model.system.SysUserRole;
+import com.futurebytedance.model.vo.AssginRoleVo;
 import com.futurebytedance.model.vo.SysRoleQueryVo;
 import com.futurebytedance.system.mapper.SysRoleMapper;
 import com.futurebytedance.system.mapper.SysUserRoleMapper;
@@ -52,5 +53,24 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         returnMap.put("allRoles", roles);//所有的角色
         returnMap.put("userRoleIds", userRoleIds);//用户分配角色id集合
         return returnMap;
+    }
+
+    //用户分配角色
+    @Override
+    public void doAssign(AssginRoleVo assginRoleVo) {
+        //根据用户id删除之前分配角色
+        QueryWrapper<SysUserRole> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", assginRoleVo.getUserId());
+        sysUserRoleMapper.delete(wrapper);
+
+        //获取所有角色id,添加角色用户关系表
+        //角色id列表
+        List<String> roleIdList = assginRoleVo.getRoleIdList();
+        for (String roleId : roleIdList) {
+            SysUserRole sysUserRole = new SysUserRole();
+            sysUserRole.setUserId(assginRoleVo.getUserId());
+            sysUserRole.setRoleId(roleId);
+            sysUserRoleMapper.insert(sysUserRole);
+        }
     }
 }

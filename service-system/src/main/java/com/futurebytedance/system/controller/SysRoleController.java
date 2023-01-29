@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.futurebytedance.common.result.Result;
 import com.futurebytedance.model.system.SysRole;
+import com.futurebytedance.model.vo.AssginRoleVo;
 import com.futurebytedance.model.vo.SysRoleQueryVo;
 import com.futurebytedance.system.exception.ByteDanceException;
 import com.futurebytedance.system.service.SysRoleService;
@@ -105,5 +106,12 @@ public class SysRoleController {
     public Result<Map<String, Object>> toAssign(@PathVariable String userId) {
         Map<String, Object> roleMap = sysRoleService.getRolesByUserId(userId);
         return Result.ok(roleMap);
+    }
+
+    @ApiOperation("用户分配角色")
+    @PostMapping("doAssign")
+    public Result<Object> doAssign(@RequestBody AssginRoleVo assginRoleVo) {
+        sysRoleService.doAssign(assginRoleVo);
+        return Result.ok();
     }
 }
