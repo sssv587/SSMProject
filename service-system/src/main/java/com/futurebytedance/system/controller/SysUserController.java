@@ -60,8 +60,16 @@ public class SysUserController {
 
     @ApiOperation("删除用户")
     @DeleteMapping("remove/{id}")
-    public Result<Object> remove(@PathVariable String id){
+    public Result<Object> remove(@PathVariable String id) {
         return sysUserService.removeById(id) ? Result.ok() : Result.fail();
+    }
+
+    @ApiOperation("更改用户状态")
+    @GetMapping("updateStatus/{id}/{status}")
+    public Result<Object> updateStatus(@PathVariable String id,
+                               @PathVariable Integer status) {
+        sysUserService.updateStatus(id, status);
+        return Result.ok();
     }
 }
 
