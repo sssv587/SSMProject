@@ -13,12 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yuhang.sun
  * @version 1.0
  * @date 2023/1/10 - 23:54
- * @Description
+ * @Description 角色模块、用户管理模块
  */
 @Api(tags = "角色管理接口")
 @RestController
@@ -97,5 +98,12 @@ public class SysRoleController {
     @DeleteMapping("batchRemove")
     public Result<Object> batchRemove(@RequestBody List<Long> ids) {
         return sysRoleService.removeByIds(ids) ? Result.ok() : Result.fail();
+    }
+
+    @ApiOperation("获取用户的角色数据")
+    @GetMapping("/toAssign/{userId}")
+    public Result<Map<String, Object>> toAssign(@PathVariable String userId) {
+        Map<String, Object> roleMap = sysRoleService.getRolesByUserId(userId);
+        return Result.ok(roleMap);
     }
 }
