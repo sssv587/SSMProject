@@ -17,4 +17,7 @@ public interface SysMenuService extends IService<SysMenu> {
 
     //菜单列表(树形)
     List<SysMenu> findNodes();
+
+    //删除菜单
+    void removeMenuById(String id);
 }
