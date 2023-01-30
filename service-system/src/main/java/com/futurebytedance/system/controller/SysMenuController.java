@@ -29,9 +29,9 @@ public class SysMenuController {
     //菜单列表(树形)
     @ApiOperation("菜单列表")
     @GetMapping("findNodes")
-    public Result<Object> findNodes() {
+    public Result<List<SysMenu>> findNodes() {
         List<SysMenu> list = sysMenuService.findNodes();
-        return Result.ok();
+        return Result.ok(list);
     }
 
     //添加菜单
