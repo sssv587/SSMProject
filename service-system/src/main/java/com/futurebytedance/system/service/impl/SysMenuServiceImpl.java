@@ -4,6 +4,7 @@ import com.futurebytedance.model.system.SysMenu;
 import com.futurebytedance.system.mapper.SysMenuMapper;
 import com.futurebytedance.system.service.SysMenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.futurebytedance.system.utils.MenuHelper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenu> findNodes() {
-        return null;
+        //获取所有菜单
+        List<SysMenu> sysMenuList = baseMapper.selectList(null);
+
+        //所有菜单数据转换要求数据格式
+        return MenuHelper.buildTree(sysMenuList);
     }
 }
