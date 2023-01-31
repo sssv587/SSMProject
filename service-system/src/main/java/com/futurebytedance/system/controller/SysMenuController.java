@@ -3,6 +3,7 @@ package com.futurebytedance.system.controller;
 
 import com.futurebytedance.common.result.Result;
 import com.futurebytedance.model.system.SysMenu;
+import com.futurebytedance.model.vo.AssginMenuVo;
 import com.futurebytedance.system.service.SysMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -63,6 +64,22 @@ public class SysMenuController {
     @DeleteMapping("remove/{id}")
     public Result<Object> remove(@PathVariable String id) {
         sysMenuService.removeMenuById(id);
+        return Result.ok();
+    }
+
+    //根据角色分配菜单
+    @ApiOperation("根据角色获取菜单")
+    @GetMapping("/toAssign/{roleId}")
+    public Result<List<SysMenu>> toAssign(@PathVariable String roleId) {
+        List<SysMenu> list = sysMenuService.findMenuByRoleId(roleId);
+        return Result.ok(list);
+    }
+
+    //给角色分配菜单权限
+    @ApiOperation("给角色分配菜单权限")
+    @PostMapping("/doAssign")
+    public Result<Object> doAssign(@RequestBody AssginMenuVo assignMenuVo) {
+        sysMenuService.doAssign(assignMenuVo);
         return Result.ok();
     }
 }

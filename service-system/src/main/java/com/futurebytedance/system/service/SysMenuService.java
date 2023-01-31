@@ -2,6 +2,7 @@ package com.futurebytedance.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.futurebytedance.model.system.SysMenu;
+import com.futurebytedance.model.vo.AssginMenuVo;
 
 import java.util.List;
 
@@ -20,4 +21,10 @@ public interface SysMenuService extends IService<SysMenu> {
 
     //删除菜单
     void removeMenuById(String id);
+
+    //根据角色分配菜单
+    List<SysMenu> findMenuByRoleId(String roleId);
+
+    //给角色分配菜单权限
+    void doAssign(AssginMenuVo assignMenuVo);
 }
