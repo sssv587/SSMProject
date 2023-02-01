@@ -11,6 +11,7 @@ import com.futurebytedance.system.mapper.SysRoleMenuMapper;
 import com.futurebytedance.system.service.SysMenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.futurebytedance.system.utils.MenuHelper;
+import com.futurebytedance.system.utils.RouterHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -103,13 +104,44 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     //根据userid查询菜单权限值
     @Override
-    public List<RouterVo> getUserMenuList(String id) {
-        return null;
+    public List<RouterVo> getUserMenuList(String userId) {
+        //admin是超级管理员，操作所有内容
+        List<SysMenu> sysMenuList;
+        //判断userid值是1代表超级管理员，查询所有权限数据
+        if ("1".equals(userId)) {
+            QueryWrapper<SysMenu> wrapper = new QueryWrapper<>();
+            wrapper.eq("status", 1);
+            wrapper.orderByAsc("sort_value");
+            sysMenuList = baseMapper.selectList(wrapper);
+        } else {
+            //如果userid不是1，其他类型用户，查询这个用户权限
+            sysMenuList = baseMapper.findMenuListUserId(userId);
+        }
+        //构建成树形结构
+        List<SysMenu> sysMenuTreeList = MenuHelper.buildTree(sysMenuList);
+
+        //转换成前端路由要求格式数据
+        return RouterHelper.buildRouters(sysMenuTreeList);
     }
 
     //根据userid查询按钮权限值
     @Override
-    public List<String> getUserButtonList(String id) {
-        return null;
+    public List<String> getUserButtonList(String userId) {
+        List<SysMenu> sysMenuList;
+        //判断是否管理员
+        if ("1".equals(userId)) {
+            sysMenuList = baseMapper.selectList(new QueryWrapper<SysMenu>().eq("status", 1));
+        } else {
+            sysMenuList = baseMapper.findMenuListUserId(userId);
+        }
+        //sysMenuList遍历
+        List<String> permissionList = new ArrayList<>();
+        for (SysMenu sysMenu : sysMenuList) {
+            // type=2
+            if (sysMenu.getType() == 2) {
+                permissionList.add(sysMenu.getPerms());
+            }
+        }
+        return permissionList;
     }
 }

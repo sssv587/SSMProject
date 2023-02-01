@@ -8,6 +8,7 @@ import com.futurebytedance.model.vo.LoginVo;
 import com.futurebytedance.system.exception.ByteDanceException;
 import com.futurebytedance.system.service.SysUserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,7 @@ public class IndexController {
     //        "token": "admin-token"
     //    }
     //}
+    @ApiOperation("用户登录接口")
     @PostMapping("/login")
     public Result<Map<String, Object>> login(@RequestBody LoginVo loginVo) {
         //根据username查询数据
@@ -76,6 +78,7 @@ public class IndexController {
     //    }
     //}
     //获取用户信息接口
+    @ApiOperation("获取用户信息接口")
     @GetMapping("info")
     public Result<Map<String, Object>> info(HttpServletRequest request) {
         //获取请求头token字符串
