@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.futurebytedance.model.system.SysMenu;
 import com.futurebytedance.model.system.SysRoleMenu;
 import com.futurebytedance.model.vo.AssginMenuVo;
+import com.futurebytedance.model.vo.RouterVo;
 import com.futurebytedance.system.exception.ByteDanceException;
 import com.futurebytedance.system.mapper.SysMenuMapper;
 import com.futurebytedance.system.mapper.SysRoleMenuMapper;
@@ -98,5 +99,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             sysRoleMenu.setRoleId(assignMenuVo.getRoleId());
             sysRoleMenuMapper.insert(sysRoleMenu);
         }
+    }
+
+    //根据userid查询菜单权限值
+    @Override
+    public List<RouterVo> getUserMenuList(String id) {
+        return null;
+    }
+
+    //根据userid查询按钮权限值
+    @Override
+    public List<String> getUserButtonList(String id) {
+        return null;
     }
 }

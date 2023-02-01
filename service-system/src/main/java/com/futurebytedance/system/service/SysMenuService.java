@@ -3,6 +3,7 @@ package com.futurebytedance.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.futurebytedance.model.system.SysMenu;
 import com.futurebytedance.model.vo.AssginMenuVo;
+import com.futurebytedance.model.vo.RouterVo;
 
 import java.util.List;
 
@@ -27,4 +28,10 @@ public interface SysMenuService extends IService<SysMenu> {
 
     //给角色分配菜单权限
     void doAssign(AssginMenuVo assignMenuVo);
+
+    //根据userid查询菜单权限值
+    List<RouterVo> getUserMenuList(String id);
+
+    //根据userid查询按钮权限值
+    List<String> getUserButtonList(String id);
 }
