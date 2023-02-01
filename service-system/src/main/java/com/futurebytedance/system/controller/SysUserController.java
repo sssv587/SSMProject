@@ -4,6 +4,7 @@ package com.futurebytedance.system.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.futurebytedance.common.result.Result;
+import com.futurebytedance.common.utils.MD5;
 import com.futurebytedance.model.system.SysUser;
 import com.futurebytedance.model.vo.SysUserQueryVo;
 import com.futurebytedance.system.service.SysUserService;
@@ -42,6 +43,8 @@ public class SysUserController {
     @ApiOperation("添加用户")
     @PostMapping("save")
     public Result<Object> save(@RequestBody SysUser user) {
+        //把输入密码进行加密 MD5
+        user.setPassword(MD5.encrypt(user.getPassword()));
         return sysUserService.save(user) ? Result.ok() : Result.fail();
     }
 

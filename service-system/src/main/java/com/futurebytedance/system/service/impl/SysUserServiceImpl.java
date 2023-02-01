@@ -1,5 +1,6 @@
 package com.futurebytedance.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.futurebytedance.model.system.SysUser;
@@ -36,5 +37,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         //调用方法修改
         baseMapper.updateById(sysUser);
+    }
+
+    //根据用户名称查询
+    @Override
+    public SysUser getUserInfoByUserName(String username) {
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", username);
+        return baseMapper.selectOne(wrapper);
     }
 }

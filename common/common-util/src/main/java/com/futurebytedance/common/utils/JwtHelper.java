@@ -18,7 +18,7 @@ public class JwtHelper {
     private static final String tokenSignKey = "123456";
 
     //根据用户id和用户名称生成token字符串
-    public static String createToken(Long userId, String username) {
+    public static String createToken(String userId, String username) {
         return Jwts.builder()
                 .setSubject("AUTH-USER")
                 .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration))
@@ -30,14 +30,13 @@ public class JwtHelper {
                 .compact();
     }
 
-    public static Long getUserId(String token) {
+    public static String getUserId(String token) {
         try {
             if (StringUtils.isEmpty(token)) return null;
 
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token);
             Claims claims = claimsJws.getBody();
-            Integer userId = (Integer) claims.get("userId");
-            return userId.longValue();
+            return (String) claims.get("userId");
         } catch (Exception e) {
             e.printStackTrace();
             return null;
