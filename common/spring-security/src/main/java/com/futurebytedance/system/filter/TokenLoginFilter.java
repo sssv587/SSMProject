@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.futurebytedance.common.result.Result;
 import com.futurebytedance.common.result.ResultCodeEnum;
+import com.futurebytedance.common.utils.IpUtil;
 import com.futurebytedance.common.utils.JwtHelper;
 import com.futurebytedance.model.vo.LoginVo;
 import com.futurebytedance.system.custom.CustomUser;
 import com.futurebytedance.common.utils.ResponseUtil;
+import com.futurebytedance.system.service.LoginLogService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,13 +34,15 @@ import java.util.Map;
  */
 public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     private RedisTemplate redisTemplate;
+    private LoginLogService loginLogService;
 
-    public TokenLoginFilter(AuthenticationManager authenticationManager, RedisTemplate redisTemplate) {
+    public TokenLoginFilter(AuthenticationManager authenticationManager, RedisTemplate redisTemplate, LoginLogService loginLogService) {
         this.setAuthenticationManager(authenticationManager);
         this.setPostOnly(false);
         //指定登录接口及提交方式，可以指定任意路径
         this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/admin/system/index/login", "POST"));
         this.redisTemplate = redisTemplate;
+        this.loginLogService = loginLogService;
     }
 
     //登录认证
@@ -65,6 +69,9 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         redisTemplate.opsForValue().set(customUser.getUsername(), JSON.toJSONString(customUser.getAuthorities()));
 
         String token = JwtHelper.createToken(customUser.getSysUser().getId(), customUser.getSysUser().getUsername());
+
+        //记录登录日志
+        loginLogService.recordLoginLog(customUser.getUsername(),1, IpUtil.getIpAddress(request),"登陆成功");
 
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);

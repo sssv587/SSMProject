@@ -3,6 +3,7 @@ package com.futurebytedance.system.config;
 import com.futurebytedance.system.custom.CustomMd5PasswordEncoder;
 import com.futurebytedance.system.filter.TokenAuthenticationFilter;
 import com.futurebytedance.system.filter.TokenLoginFilter;
+import com.futurebytedance.system.service.LoginLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +38,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private LoginLogService loginLogService;
+
     @Bean
     @Override
     protected AuthenticationManager authenticationManager() throws Exception {
@@ -59,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 //TokenAuthenticationFilter放到UsernamePasswordAuthenticationFilter的前面，这样做就是为了除了登录的时候去查询数据库外，其他时候都用token进行认证。
                 .addFilterBefore(new TokenAuthenticationFilter(redisTemplate), UsernamePasswordAuthenticationFilter.class)
-                .addFilter(new TokenLoginFilter(authenticationManager(), redisTemplate));
+                .addFilter(new TokenLoginFilter(authenticationManager(), redisTemplate, loginLogService));
 
         //禁用session
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -74,11 +78,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 配置哪些请求不拦截
      * 排除swagger相关请求
+     *
      * @param web
      * @throws Exception
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/favicon.ico","/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**", "/doc.html");
+        web.ignoring().antMatchers("/favicon.ico", "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**", "/doc.html");
     }
 }
