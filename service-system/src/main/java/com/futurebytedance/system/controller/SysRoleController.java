@@ -6,6 +6,8 @@ import com.futurebytedance.common.result.Result;
 import com.futurebytedance.model.system.SysRole;
 import com.futurebytedance.model.vo.AssginRoleVo;
 import com.futurebytedance.model.vo.SysRoleQueryVo;
+import com.futurebytedance.system.annotation.Log;
+import com.futurebytedance.system.enums.BusinessType;
 import com.futurebytedance.system.exception.ByteDanceException;
 import com.futurebytedance.system.service.SysRoleService;
 import io.swagger.annotations.Api;
@@ -74,6 +76,7 @@ public class SysRoleController {
     //4.添加
     //@RequestBody 不能使用get提交方式
     //传递json格式数据,把json格式数据封装到对象里面{...}
+    @Log(title = "角色管理", businessType = BusinessType.INSERT)
     @PreAuthorize("hasAuthority('bnt.sysRole.add')")
     @ApiOperation("添加角色")
     @PostMapping("save")
