@@ -13,3 +13,4 @@
 /common/service-util/target/*
 /common/common-util/target/*
 /common/spring-security/target/*
+/common/common-log/target/*
