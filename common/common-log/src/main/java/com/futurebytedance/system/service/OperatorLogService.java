@@ -1,6 +1,8 @@
 package com.futurebytedance.system.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.futurebytedance.model.system.SysOperLog;
+import com.futurebytedance.model.vo.SysOperLogQueryVo;
 
 /**
  * @author yuhang.sun
@@ -10,4 +12,7 @@ import com.futurebytedance.model.system.SysOperLog;
  */
 public interface OperatorLogService {
     void saveSysLog(SysOperLog sysOperLog);
+
+    //操作日志分页查询
+    IPage<SysOperLog> selectPage(Long page, Long limit, SysOperLogQueryVo sysOperLogQueryVo);
 }
